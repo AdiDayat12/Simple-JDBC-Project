@@ -8,10 +8,7 @@ import com.belajar.JDBC.util.ConnectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +16,8 @@ public class RoomDAO {
     private static final Logger log = LoggerFactory.getLogger(RoomDAO.class);
 
     Room room;
+
+//    GET ROOMS
     public List<Room> getAllDatas (){
         List<Room> roomList = new ArrayList<>();
 
@@ -41,6 +40,73 @@ public class RoomDAO {
             log.error("Error", e);
         }
         return roomList;
+    }
+
+    //GET NORMAL ROOM
+    public List<Room> getNormalRoom (){
+        List<Room> result = new ArrayList<>();
+        try (Connection conn = ConnectionUtil.dataSource.getConnection();
+             Statement statement = conn.createStatement()){
+            String sql = "SELECT * FROM  room WHERE type = 'normal'";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                Room room = new Room();
+                room.setId(resultSet.getInt("id_room"));
+                RoomType type = RoomType.valueOf(resultSet.getString("type").toUpperCase());
+                RoomStatus status = RoomStatus.valueOf(resultSet.getString("status").toUpperCase());
+                room.setType(type);
+                room.setStatus(status);
+                result.add(room);
+            }
+        } catch (SQLException e){
+            log.error("Error ", e);
+        }
+        return result;
+    }
+
+    public List<Room> getVipRoom (){
+        List<Room> result = new ArrayList<>();
+        try (Connection conn = ConnectionUtil.dataSource.getConnection();
+             Statement statement = conn.createStatement()){
+            String sql = "SELECT * FROM  room WHERE type = 'vip'";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                Room room = new Room();
+                room.setId(resultSet.getInt("id_room"));
+                RoomType type = RoomType.valueOf(resultSet.getString("type").toUpperCase());
+                RoomStatus status = RoomStatus.valueOf(resultSet.getString("status").toUpperCase());
+                room.setType(type);
+                room.setStatus(status);
+                result.add(room);
+            }
+        } catch (SQLException e){
+            log.error("Error ", e);
+        }
+        return result;
+    }
+
+    public List<Room> getVvipRoom (){
+        List<Room> result = new ArrayList<>();
+        try (Connection conn = ConnectionUtil.dataSource.getConnection();
+             Statement statement = conn.createStatement()){
+            String sql = "SELECT * FROM  room WHERE type = 'vvip'";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                Room room = new Room();
+                room.setId(resultSet.getInt("id_room"));
+                RoomType type = RoomType.valueOf(resultSet.getString("type").toUpperCase());
+                RoomStatus status = RoomStatus.valueOf(resultSet.getString("status").toUpperCase());
+                room.setType(type);
+                room.setStatus(status);
+                result.add(room);
+            }
+        } catch (SQLException e){
+            log.error("Error ", e);
+        }
+        return result;
     }
 
     public int addRoom (Room room){

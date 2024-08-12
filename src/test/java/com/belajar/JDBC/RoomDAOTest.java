@@ -14,9 +14,11 @@ import java.util.List;
 
 public class RoomDAOTest extends AbstractConnection {
     Room room;
+    RoomDAO roomDAO;
     @BeforeEach
     void setUp () throws SQLException {
         getConnection();
+        roomDAO = new RoomDAO();
     }
     @AfterEach
     void tearDown () throws SQLException {
@@ -25,7 +27,6 @@ public class RoomDAOTest extends AbstractConnection {
 
     @Test
     void getAllData (){
-        RoomDAO roomDAO = new RoomDAO();
         List<Room> result = roomDAO.getAllDatas();
         printAll(result);
     }
@@ -35,8 +36,13 @@ public class RoomDAOTest extends AbstractConnection {
     }
 
     @Test
+    void getNormalRoom (){
+        List<Room> result = roomDAO.getNormalRoom();
+        printAll(result);
+    }
+
+    @Test
     void addRoomTest (){
-        RoomDAO roomDAO = new RoomDAO();
         room = new Room();
         room.setType(RoomType.NORMAL);
         room.setStatus(RoomStatus.BOOKED);
